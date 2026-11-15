@@ -11,7 +11,8 @@
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Permissions-Policy": "geolocation=(self), camera=(), microphone=()"
+    "Permissions-Policy": "geolocation=(self), camera=(), microphone=()",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://gibs.earthdata.nasa.gov; connect-src 'self' https://power.larc.nasa.gov; font-src 'self' data:;"
   },
   "platform": { "apiRuntime": "node:20" },
   "mimeTypes": { ".webmanifest": "application/manifest+json" }

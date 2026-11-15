@@ -1,6 +1,6 @@
 # AgroShift Michoacán · AgroSmart MX
 
-Aplicación demostrativa para acompañar decisiones en parcelas de Michoacán. Frontend React/Vite con dashboard móvil, mapa Leaflet, gráficas Recharts, simulador de sensores y endpoints de Azure Functions Node.js v4.
+Dashboard de parcela con estado inicial vacío. No se crean parcelas ni lecturas de demostración automáticamente. Los polígonos y coordenadas son introducidos por el usuario; cada vértice se guarda localmente en el navegador. NASA POWER es la fuente de variables diarias meteorológicas; NASA GIBS/Worldview aporta mosaicos satelitales de reflectancia MODIS. El mapa base es OpenStreetMap.
 
 ## Requisitos y ejecución local
 
@@ -16,7 +16,11 @@ El frontend funciona en modo demostración si `/api` no está disponible. Para i
 
 ## NASA POWER y límites de las fuentes
 
-`GET /api/nasa-telemetry` consulta NASA POWER Daily AG para T2M, PRECTOTCORR, GWETTOP y GWETROOT, con caché en memoria de seis horas y datos de respaldo explícitamente señalados. Las Functions HTTP usan `authLevel: anonymous` para el proxy integrado de Static Web Apps. El POST IoT requiere `IOT_WRITE_KEY` y encabezado `x-iot-key`; rota la clave y usa un almacén seguro de dispositivos en producción. GWETTOP/GWETROOT son variables de humedad modeladas de NASA POWER, no telemetría SMAP de paso ni mediciones de sensor. Los valores NDVI de MODIS/Landsat y elevación SRTM se devuelven como no disponibles salvo respaldo de demo; no se presentan como observaciones reales.
+`GET /api/nasa-telemetry` consulta NASA POWER Daily AG para las coordenadas del centroide: T2M, PRECTOTCORR, ALLSKY_SFC_SW_DWN, WS2M, RH2M, PS y EVPTRNS. La interfaz queda sin datos si NASA no responde. NASA POWER es histórico/modelado; no es pronóstico. `PS` no genera alerta de cambio de presión. La elevación solo se muestra si NASA POWER la devuelve en su respuesta. La capa GIBS se sirve desde NASA y su resolución/fecha dependen del producto. No se promete NDVI parcelario ni SMAP mediante POWER.
+
+Las Functions HTTP usan `authLevel: anonymous` para el proxy integrado. El POST IoT requiere `IOT_WRITE_KEY` y encabezado `x-iot-key`. El backend actual mantiene lecturas en memoria, no persistentes y no escalables: para una instalación real de ESP32, se requiere almacenamiento Azure durable y gestión individual de identidad/credenciales de cada dispositivo. No incrustes secretos de sensores en JavaScript público.
+
+Las parcelas están guardadas en `localStorage` de ese navegador únicamente. No se sincronizan a otros dispositivos ni cuentas; eliminar una parcela borra su registro local.
 
 ## Azure Static Web Apps
 
