@@ -1,0 +1,18 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/api/*", "/*.{css,scss,js,json,ico,png,svg,jpg,jpeg,webp,woff,woff2}"]
+  },
+  "routes": [
+    { "route": "/api/*", "allowedRoles": ["anonymous"] },
+    { "route": "/*", "allowedRoles": ["anonymous"] }
+  ],
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(self), camera=(), microphone=()"
+  },
+  "platform": { "apiRuntime": "node:20" },
+  "mimeTypes": { ".webmanifest": "application/manifest+json" }
+}
